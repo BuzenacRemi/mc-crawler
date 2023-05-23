@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des serveurs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="minecraft-background">
+    <div id="grass-row">
+        <br>
+        <header>
+        <img>
+            <img id="icon" src="./img/server.png">
+            <h1>Liste des serveurs</h1>
+        </header>
+        <br>
+    </div>
+    <div id="dirt-background">
+        {{#servers}}
+            <div class="container">
+                <div class="name-tag-area">
+                    <div class="name-area"><h2>{{ name }}</h2></div>
+                    <div class="tag-area">
+                        {{ ip }}
+                        <br>
+                        {{#tags}}
+                            {{#tags}}
+                                {{.}}
+                            {{/tags}}
+                        {{/tags}}
+                    </div>
+                </div>
+                <div class="icon-area">{{ icon }}</div>
+                <div class="status-area">
+                    {{ max_slot }}
+                    {{#stats}}
+                        {{ favicon }}
+                    {{/stats}}
+                </div>
+            </div>
+            <br>
+        {{/servers}}
+        <footer>
+            <h1>Footer</h1>
+            <br><br>
+        </footer>
+    </div>
+</div>
+</body>
+</html>
