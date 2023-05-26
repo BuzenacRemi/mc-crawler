@@ -24,6 +24,7 @@ const puppeteer = require('puppeteer');
 //     ipCrawler('https://serveur-minecraft.com/?page=' + i);
 // }
 
+
 async function crawler(url) {
     const browser = await puppeteer.launch({
         executablePath: '/usr/bin/google-chrome',
