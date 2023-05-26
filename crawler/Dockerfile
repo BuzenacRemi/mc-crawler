@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install curl gnupg -y \
   && apt-get install google-chrome-stable -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 WORKDIR /CRAWL
+RUN npm install @web/test-runner-puppeteer@0.13.1
 RUN whereis chromium
 RUN npm install puppeteer
 RUN echo 2

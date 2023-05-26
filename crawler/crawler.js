@@ -27,6 +27,7 @@ const puppeteer = require('puppeteer');
 
 async function crawler(url) {
     const browser = await puppeteer.launch({
+        args: ['--no-sandbox'],
         executablePath: '/usr/bin/google-chrome',
         headless: true,
     });
@@ -58,6 +59,7 @@ async function crawler(url) {
 
 async function getHref(url, nbr) {
     const browser = await puppeteer.launch({
+        args: ['--no-sandbox'],
         executablePath: '/usr/bin/google-chrome',
         headless: true,
     });
