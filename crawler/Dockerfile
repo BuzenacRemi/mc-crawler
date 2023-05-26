@@ -10,6 +10,7 @@ WORKDIR /CRAWL
 RUN npm install @web/test-runner-puppeteer@0.13.1
 RUN whereis chromium
 RUN npm install puppeteer
+RUN npm install pg
 RUN echo 2
 RUN npm install path
 RUN echo 3

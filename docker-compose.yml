@@ -14,6 +14,10 @@ services:
     build: ./src
     ports:
       - "8080:8080"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     depends_on:
       - db
   crawler:

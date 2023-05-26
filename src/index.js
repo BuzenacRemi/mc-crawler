@@ -5,11 +5,11 @@ const { Pool } = require('pg');
 const mcAPI = require('node-mc-api')
 
 const pool = new Pool({
-  user: 'postgres',
-  password: 'postgres',
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
   host: 'db',
-  database: 'postgres',
-  port: 5432, 
+  database: process.env.POSTGRES_DB,
+  port: 5432,
 });
 const app = express();
 
@@ -25,7 +25,7 @@ async function createTable(){
   const client = await pool.connect();
   try {
     client.query('DROP TABLE servers');
-    await client.query('CREATE TABLE IF NOT EXISTS servers(ip varchar(50) PRIMARY KEY,name VARCHAR(75),icon bytea, version varchar(15), max_slot INT, premium BIT, tags json);');
+    await client.query('CREATE TABLE IF NOT EXISTS servers(ip varchar(50) PRIMARY KEY,name VARCHAR(75),icon bytea, version varchar(150), max_slot INT, premium BIT, tags json);');
     client.query('INSERT INTO servers (ip, name, icon, version, max_slot, premium, tags) VALUES (\'play.funcraft.fr\',\'Funcraft\',\'\\xDEADBEEF\',\'1.8.9\', 10,\'1\',\'{\"tags\": [\"modded\", \"minigames\", \"plugins\"]}\')');
     client.query('INSERT INTO servers (ip, name, icon, version, max_slot, premium, tags) VALUES (\'play.hypixel.com\',\'Hypixel\',\'\\xDEADBEEF\',\'1.9.x\', 15,\'0\',\'{\"tags\": [\"vanilla\", \"uhc\", \"plugins\"]}\')');
     client.query('INSERT INTO servers (ip, name, icon, version, max_slot, premium, tags) VALUES (\'play.epicube.com\',\'Epicube\',\'\\xDEADBEEF\',\'1.7.10\', 15,\'0\',\'{\"tags\": [\"modded\", \"pvp\", \"plugins\"]}\')');

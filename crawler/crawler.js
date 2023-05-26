@@ -1,4 +1,14 @@
 const puppeteer = require('puppeteer');
+const { Pool } = require('pg');
+
+
+const pool = new Pool({
+    user: "postgres",
+    password: "postgres",
+    host: 'db',
+    database: "postgres",
+    port: 5432,
+});
 
 // function ipCrawler(url) {
 //     (async () => {
@@ -52,6 +62,7 @@ async function crawler(url) {
 
         return {version, ip, tagList, name, img};
     });
+    await addDataServer(data);
     console.log(data);
     await browser.close();
 }
@@ -76,6 +87,18 @@ async function getHref(url, nbr) {
 
     console.log(hrefArray.length);
     return hrefArray;
+}
+
+async function addDataServer(data) {
+    const client = await pool.connect();
+    try {
+        // await client.query('DROP TABLE IF EXISTS servers');
+        // await client.query('CREATE TABLE IF NOT EXISTS servers (ip VARCHAR, name VARCHAR, icon VARCHAR, version VARCHAR)');
+        await client.query('INSERT INTO servers (ip, name, icon, version) VALUES ($1, $2, $3, $4)', [data.ip, data.name, data.img, data.version]);
+
+    } finally {
+        client.release();
+    }
 }
 
 (async () => {
