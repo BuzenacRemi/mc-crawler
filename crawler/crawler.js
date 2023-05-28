@@ -35,6 +35,7 @@ const pool = new Pool({
 // }
 
 
+
 async function crawler(url) {
     const browser = await puppeteer.launch({
         args: ['--no-sandbox'],
@@ -45,22 +46,31 @@ async function crawler(url) {
     await page.goto(url, {waitUntil: 'networkidle2', timeout: 0});
 
     const data = await page.evaluate(() => {
-        const versionElement = document.querySelectorAll('.vr')[0]?.querySelector('strong');
-        const version = versionElement ? versionElement.innerText : '?';
-
-        const ipElement = document.querySelector('.inco input');
-        const ip = ipElement ? ipElement.value : '?';
-
-        const tags = document.querySelectorAll('.tag a');
-        const tagList = Array.from(tags).map(tag => tag.innerText);
 
         const nameElement = document.querySelector('h2');
         const name = nameElement ? nameElement.innerText : '?';
 
+        const versionElement = document.querySelectorAll('.vr')[0]?.querySelector('strong');
+        const version = versionElement ? versionElement.innerText : '?';
+
+        const ipElement = document.querySelector('.inco input');
+        const ip = ipElement ? ipElement.value : 'launcher '+ name;
+
+        const tags = document.querySelectorAll('.tag a');
+        const tagList = Array.from(tags).map(tag => tag.innerText);
+
         const imgElement = document.querySelector('.f img');
         const img = imgElement ? imgElement.src : '?';
 
-        return {version, ip, tagList, name, img};
+        const crack = tagList.includes('Cracké') ? 1 : 0;
+
+
+        const maxSlotElement = document.querySelectorAll('.co')[0];
+        const maxSlotText = maxSlotElement ? maxSlotElement.innerText : '?';
+        const maxSlotMatch = maxSlotText.match(/(\d+) joueurs$/);
+        const maxSlot = maxSlotMatch ? parseInt(maxSlotMatch[1]) : null;
+
+        return {version, ip, tags: JSON.stringify(tagList), name, img, crack, maxSlot};
     });
     await addDataServer(data);
     console.log(data);
@@ -89,24 +99,29 @@ async function getHref(url, nbr) {
     return hrefArray;
 }
 
+async function initData(){
+    const client = await pool.connect();
+    await client.query('DROP TABLE IF EXISTS servers');
+    await client.query('CREATE TABLE IF NOT EXISTS servers (ip VARCHAR, name VARCHAR, icon VARCHAR, version VARCHAR)');
+    client.release();
+}
+
 async function addDataServer(data) {
     const client = await pool.connect();
     try {
-        // await client.query('DROP TABLE IF EXISTS servers');
-        // await client.query('CREATE TABLE IF NOT EXISTS servers (ip VARCHAR, name VARCHAR, icon VARCHAR, version VARCHAR)');
-        await client.query('INSERT INTO servers (ip, name, icon, version) VALUES ($1, $2, $3, $4)', [data.ip, data.name, data.img, data.version]);
-
+        await client.query('INSERT INTO servers (ip, name, icon, version, premium, tags, max_slot) VALUES ($1, $2, $3, $4, $5, $6, $7)', [data.ip, data.name, data.img, data.version, data.crack, data.tags, data.maxSlot]);
     } finally {
         client.release();
     }
 }
 
 (async () => {
+    await initData();
     const url = 'https://serveur-prive.net/minecraft/page/';
     for (let i = 1; i < 3; i++) {
         let arr = await getHref(url + i, i);
         console.log(arr)
-        for (let j = 0; j < arr.length; j++) {
+        for (let j = 3; j < arr.length; j++) {
             await crawler("https://serveur-prive.net" + arr[j]);
         }
     }
