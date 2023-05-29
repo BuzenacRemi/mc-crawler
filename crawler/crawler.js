@@ -3,33 +3,19 @@ const { Pool } = require('pg');
 
 
 const pool = new Pool({
-    user: "postgres",
-    password: "postgres",
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
     host: 'db',
-    database: "postgres",
+    database: process.env.POSTGRES_DB,
     port: 5432,
 });
-
 createTable();
 
 async function createTable(){
     const client = await pool.connect();
     try {
         await client.query('DROP TABLE IF EXISTS servers');
-        await client.query('CREATE TABLE IF NOT EXISTS servers(ip varchar(50) PRIMARY KEY,name VARCHAR(75),icon varchar(255), version varchar(150), premium BIT, tags text[], max_slot INT);');
-
-        /*client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'play.funcraft.fr\',\'Funcraft\',\'https://pbs.twimg.com/profile_images/1083667374379855872/kSsOCKM7_400x400.jpg\',\'1.8.9\',\'1\',\'{\"modded\", \"minigames\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'play.hypixel.com\',\'Hypixel\',\'https://hypixel.net/styles/hypixel-v2/images/hypixel.png\',\'1.9.x\',\'0\',\'{\"vanilla\", \"uhc\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'play.epicube.com\',\'Epicube\',\'\\xDEADBEEF\',\'1.7.10\',\'0\',\'{\"modded\", \"pvp\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'funcraft.fr\',\'Funcraft\',\'\\xDEADBEEF\',\'1.8.9\',\'1\',\'{\"modded\", \"minigames\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'hypixel.com\',\'Hypixel\',\'\\xDEADBEEF\',\'1.9.8\', \'0\',\'{\"vanilla\", \"uhc\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'epicube.com\',\'Epicube\',\'\\xDEADBEEF\',\'1.7.8\',\'0\',\'{\"modded\", \"pvp\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'www.funcraft.fr\',\'Funcraft\',\'\\xDEADBEEF\',\'1.14.2\',\'1\',\'{\"modded\", \"minigames\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'www.hypixel.com\',\'Hypixel\',\'\\xDEADBEEF\',\'1.9.10\',\'0\',\'{\"vanilla\", \"uhc\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'www.epicube.com\',\'Epicube\',\'\\xDEADBEEF\',\'1.7.10\', \'0\',\'{\"modded\", \"pvp\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'mc.funcraft.fr\',\'Funcraft\',\'\\xDEADBEEF\',\'1.6.4\', \'1\',\'{\"modded\", \"minigames\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'mc.hypixel.com\',\'Hypixel\',\'\\xDEADBEEF\',\'1.2.5\', \'0\',\'{\"vanilla\", \"uhc\", \"plugins\"}\')');
-        client.query('INSERT INTO servers (ip, name, iconUrl, version, online, tags) VALUES (\'mc.epicube.com\',\'Epicube\',\'\\xDEADBEEF\',\'1.6.2\', \'0\',\'{\"modded\", \"pvp\", \"plugins\"}\')');*/
+        await client.query('CREATE TABLE IF NOT EXISTS servers(ip varchar(170) PRIMARY KEY,name VARCHAR(75),icon varchar(255), version varchar(150), premium BIT, tags text[], max_slot INT);');
     }catch (err) {
         console.log(err);
     }finally{
@@ -37,38 +23,11 @@ async function createTable(){
     }
 }
 
-
-// function ipCrawler(url) {
-//     (async () => {
-//         const browser = await puppeteer.launch({headless: true}); //ouvre le navigateur
-//         const page = await browser.newPage(); // ouvre une nouvelle page
-//         await page.goto(url, {waitUntil: 'networkidle2', timeout: 0}); // va sur l'url
-//
-//         const dataIp = await page.evaluate(() => {
-//             const titledescElements = document.querySelectorAll('.titledesc'); // récupère les éléments de la class titledesc
-//
-//             return [...titledescElements].map((el) => {
-//                 const title = el.querySelector('.title').textContent.trim();
-//                 const description = el.querySelector('.desc').textContent.trim();
-//                 return { title, description };
-//             });
-//         });
-//
-//         console.log(dataIp);
-//         await browser.close();
-//     })();
-// }
-// for (let i = 1; i < 2; i++) {
-//     ipCrawler('https://serveur-minecraft.com/?page=' + i);
-// }
-
-
-
 async function crawler(url) {
     const browser = await puppeteer.launch({
         args: ['--no-sandbox'],
         executablePath: '/usr/bin/google-chrome',
-        headless: true,
+        headless: "new",
     });
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: 'networkidle2', timeout: 0});
@@ -110,7 +69,7 @@ async function getHref(url, nbr) {
     const browser = await puppeteer.launch({
         args: ['--no-sandbox'],
         executablePath: '/usr/bin/google-chrome',
-        headless: true,
+        headless: "new",
     });
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: 'networkidle2', timeout: 0});

@@ -12,6 +12,10 @@ services:
       - "5432:5432"
   crawler:
     build: ./crawler
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     depends_on:
       - db
   web:

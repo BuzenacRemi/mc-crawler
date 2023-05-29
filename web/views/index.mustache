@@ -26,10 +26,12 @@
                     <option value="version">Version</option>
                     <option value="name">Name</option>
                     <option value="player">Player</option>
+                    <option value="max_slot">Slots</option>
+
                 </select>
                 <label>Tag : </label>
                 <select name="tag" class="menu-deroulant">
-                    <option value="">Select a tag</option>
+                    <option value="all">Tous</option>
                     {{#tagsL.tags}}
                         <option value="{{.}}">{{.}}</option>
                     {{/tagsL.tags}}
@@ -53,9 +55,7 @@
                 </div>
                 <div class="icon-area"><img class="server-icon" src="{{ icon }}"></div>
                 <div class="status-area">
-                    {{#stats}}
-                        {{ favicon }}
-                    {{/stats}}
+                    <p>{{ max_slot }} slots</p>
                 </div>
             </div>
             <br>

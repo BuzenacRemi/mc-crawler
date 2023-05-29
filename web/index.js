@@ -34,24 +34,25 @@ app.get('/', async (req, res) => {
     });
   });
   tagsL = {tags : tagList}
-  const {rows: servers} = generateQuery(tri, tag);
+  const {rows: servers} = await generateQuery(tri, tag);
   res.render('index', { servers, tagsL});
 });
 
-async function generateQuery(tri, tag) {
+function generateQuery(tri, tag) {
   if (typeof tri === 'undefined') {
-    if (typeof tag === 'undefined') {
-      return await pool.query("SELECT * FROM servers");
+    if (typeof tag === 'undefined' || tag === 'all') {
+      return pool.query('SELECT * FROM servers');
     } else {
-      return await pool.query("SELECT * FROM servers WHERE '$1' = ANY()", [tag]);
+      return pool.query('SELECT * FROM servers WHERE $1 = ANY()', [tag]);
     }
   } else {
-    if (typeof tag === 'undefined') {
-      return await pool.query("SELECT * FROM servers order by $1", [tri]);
+    if (typeof tag === 'undefined' || tag === 'all') {
+      return pool.query('SELECT * FROM servers order by $1', [tri]);
     } else {
-      return await pool.query("SELECT * FROM servers WHERE '$1' = ANY(tags) order by $2",[tag, tri]);
+      return pool.query('SELECT * FROM servers WHERE $1 = ANY(tags) order by $2',[tag, tri]);
     }
   }
+  return pool.query('SELECT * FROM servers');
 }
 
 app.listen(8080, () => {
