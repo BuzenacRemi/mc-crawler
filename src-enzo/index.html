@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Page de résultats</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Page de résultats</h1>
+    <div id="search-bar">
+        <input type="text" id="search-input" placeholder="Rechercher...">
+    </div>
+    <div id="filter-bar">
+        <button id="filter-button">Filtrer</button>
+    </div>
+    <div id="results"></div>
+</div>
+
+<div id="filter-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Filtres</h2>
+        <div>
+            <label>Date de création :</label>
+            <input type="text" id="creation-date-input" placeholder="YYYY-MM-DD">
+        </div>
+        <div>
+            <label>Nombre de joueurs :</label>
+            <input type="number" id="player-count-input" min="0">
+        </div>
+        <div>
+            <label>Vote :</label>
+            <select id="vote-select">
+                <option value="">Tous</option>
+                <option value="oui">Oui</option>
+                <option value="non">Non</option>
+            </select>
+        </div>
+        <div>
+            <label>Mode de jeu :</label>
+            <select id="game-mode-select">
+                <option value="">Tous</option>
+                <option value="PvP">PvP</option>
+                <option value="survie">Survie</option>
+                <option value="build">Build</option>
+                <option value="mini-jeux">Mini-jeux</option>
+                <option value="faction">Faction</option>
+                <option value="skyblock">Skyblock</option>
+            </select>
+        </div>
+        <button id="apply-filter-button">Appliquer le filtre</button>
+    </div>
+</div>
+
+<div id="details-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Données détaillées</h2>
+        <div id="details-content"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

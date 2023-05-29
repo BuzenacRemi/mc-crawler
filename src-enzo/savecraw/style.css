@@ -1,0 +1,43 @@
+/* style.css */
+.server-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.server-image {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.server-details {
+    flex: 1;
+}
+
+.server-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.server-description {
+    margin-bottom: 5px;
+}
+
+.server-tags {
+    margin-top: 5px;
+}
+
+.server-tags a {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 2px 5px;
+    background-color: #ccc;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+}
