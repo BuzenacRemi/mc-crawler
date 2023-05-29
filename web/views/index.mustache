@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des serveurs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<script src="index.js"></script>
+<div id="minecraft-background">
+    <div id="grass-row">
+        <br>
+        <header>
+            <img id="icon" src="./img/server.png">
+            <h1>Liste des serveurs</h1>
+            <button onclick="darkTheme()">Dark Mode</button>
+        </header>
+        <br>
+    </div>
+    <div id="dirt-background">
+        <div id="filter-field">
+            <p></p>
+            <form action="#">
+                <label>Sort by : </label>
+                <select name="tri" class="menu-deroulant">
+                    <option value="version">Version</option>
+                    <option value="name">Name</option>
+                    <option value="player">Player</option>
+                    <option value="max_slot">Slots</option>
+
+                </select>
+                <label>Tag : </label>
+                <select name="tag" class="menu-deroulant">
+                    <option value="all">Tous</option>
+                    {{#tagsL.tags}}
+                        <option value="{{.}}">{{.}}</option>
+                    {{/tagsL.tags}}
+                </select>
+                <input type="submit" value="Search" />
+            </form>
+
+        </div>
+        <br>
+        {{#servers}}
+            <div class="container">
+                <div class="name-tag-area">
+                    <div class="name-area"><h2>{{ name }}</h2></div>
+                    <div class="tag-area">
+                        {{ ip }}
+                        <br>
+                        {{#tags}}
+                            {{.}}
+                        {{/tags}}
+                    </div>
+                </div>
+                <div class="icon-area"><img class="server-icon" src="{{ icon }}"></div>
+                <div class="status-area">
+                    <p>{{ max_slot }} slots</p>
+                </div>
+            </div>
+            <br>
+        {{/servers}}
+    </div>
+</div>
+</body>
+</html>

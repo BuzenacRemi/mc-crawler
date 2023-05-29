@@ -1,0 +1,116 @@
+.container {
+    display: grid;
+    grid-auto-flow: row dense;
+    grid-auto-columns: 1fr;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 20% 55% 25% 15fr;
+    gap: 0px 0px;
+    border: 2px solid #a3a3a3;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #eeeeee;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+#filter-field {
+    display: grid;
+    grid-auto-flow: row dense;
+    grid-auto-columns: 1fr;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 10% 10% 15fr;
+    gap: 0px 0px;
+    border: 2px solid #a3a3a3;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #eeeeee;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.name-tag-area {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+    "name-area"
+    "tag-area";
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.name-area { grid-area: name-area; }
+
+.tags-area { grid-area: tag-area; }
+
+.icon-area {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.server-icon{
+    width: 150px;
+    height: 150px;
+}
+
+.container.status-area { grid-area: 1 / 3 / 2 / 4; }
+
+#grass-row{
+    height: 160px;
+    background-image: url('./img/Grass_Block.jpg');
+    background-repeat: repeat-x;
+    background-size: 160px 160px;
+}
+
+#dirt-background {
+    height: calc(100% - 160px);
+    background-image: url('./img/Dirt.jpg');
+    background-repeat: repeat;
+    background-size: 160px 160px;
+}
+
+#minecraft-background {
+    background-image: url('./img/Dirt.jpg');
+    background-repeat: repeat;
+    background-size: 160px 160px;
+}
+
+html, body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    border: 2px solid #a3a3a3;
+    border-radius: 5px;
+    padding: 5px;
+    display: grid;
+    grid-auto-flow: row dense;
+    grid-auto-columns: 1fr;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 40% 40% 20% ;
+    gap: 0px 0px;
+    background-color: #eeeeee;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+header.icon-area{
+    grid-area: 1 / 1 / 2 / 2;
+}
+header.title-area{
+    grid-area: 1 / 2 / 2 / 3;
+    align-content: center;
+}
+header.other-area{
+    grid-area: 1 / 3 / 2 / 4;
+}
+#icon {
+    width: auto;
+    height: 100px;
+}
+
+@media only screen and (max-width: 600px) {
+    #dirt-background {
+        background-color: aqua;
+        background-image: none;
+    }
+}
