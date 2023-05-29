@@ -22,6 +22,7 @@ app.use
 app.get('/', async (req, res) => {
   var tri = req.query.tri;
   var tag = req.query.tag;
+  var pre = req.query.premium;
 
   const {rows: tagsSel} = await pool.query('SELECT tags FROM servers');
   let tagList = [];
@@ -38,21 +39,37 @@ app.get('/', async (req, res) => {
   res.render('index', { servers, tagsL});
 });
 
-function generateQuery(tri, tag) {
-  if (typeof tri === 'undefined') {
-    if (typeof tag === 'undefined' || tag === 'all') {
-      return pool.query('SELECT * FROM servers');
-    } else {
-      return pool.query('SELECT * FROM servers WHERE $1 = ANY()', [tag]);
-    }
-  } else {
-    if (typeof tag === 'undefined' || tag === 'all') {
-      return pool.query('SELECT * FROM servers order by $1', [tri]);
-    } else {
-      return pool.query('SELECT * FROM servers WHERE $1 = ANY(tags) order by $2',[tag, tri]);
+function generateQuery(tri, tag, premium) {
+  let query = 'SELECT * FROM servers';
+  const values = [];
+
+  if (typeof tag !== 'undefined' && tag !== 'all') {
+    query += ' WHERE $1 = ANY(tags)';
+    values.push(tag);
+  }
+
+  if (typeof premium !== 'undefined') {
+    if (premium === 1) {
+      if (values.length === 0) {
+        query += ' WHERE premium = 1';
+      } else {
+        query += ' AND premium = 1';
+      }
+    }else{
+      if (values.length === 0) {
+        query += ' WHERE premium = 0';
+      } else {
+        query += ' AND premium = 0';
+      }
     }
   }
-  return pool.query('SELECT * FROM servers');
+
+  if (typeof tri !== 'undefined') {
+    query += ' ORDER BY $' + (values.length + 1);
+    values.push(tri);
+  }
+
+  return pool.query(query, values);
 }
 
 app.listen(8080, () => {

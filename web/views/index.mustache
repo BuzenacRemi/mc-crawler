@@ -13,7 +13,6 @@
         <header>
             <img id="icon" src="./img/server.png">
             <h1>Liste des serveurs</h1>
-            <button onclick="darkTheme()">Dark Mode</button>
         </header>
         <br>
     </div>
@@ -27,7 +26,6 @@
                     <option value="name">Name</option>
                     <option value="player">Player</option>
                     <option value="max_slot">Slots</option>
-
                 </select>
                 <label>Tag : </label>
                 <select name="tag" class="menu-deroulant">
@@ -36,6 +34,8 @@
                         <option value="{{.}}">{{.}}</option>
                     {{/tagsL.tags}}
                 </select>
+                <input type="checkbox" id="premium" name="premium" value="1" checked>
+                <label for="premium">Premium</label>
                 <input type="submit" value="Search" />
             </form>
 
@@ -44,8 +44,9 @@
         {{#servers}}
             <div class="container">
                 <div class="name-tag-area">
-                    <div class="name-area"><h2>{{ name }}</h2></div>
+                    <div class="name-area"><h2>{{ name }} </h2></div>
                     <div class="tag-area">
+                        {{ version }}
                         {{ ip }}
                         <br>
                         {{#tags}}
@@ -56,6 +57,8 @@
                 <div class="icon-area"><img class="server-icon" src="{{ icon }}"></div>
                 <div class="status-area">
                     <p>{{ max_slot }} slots</p>
+                    <button id="pingButton" class="online-button" onclick="pingServer('{{ ip }}', 25565)">Ping</button>
+
                 </div>
             </div>
             <br>

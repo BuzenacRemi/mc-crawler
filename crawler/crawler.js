@@ -56,11 +56,9 @@ async function crawler(url) {
         const maxSlotText = maxSlotElement ? maxSlotElement.innerText : '?';
         const maxSlotMatch = maxSlotText.match(/(\d+) joueurs$/);
         const maxSlot = maxSlotMatch ? parseInt(maxSlotMatch[1]) : null;
-        console.log(tagList);
         return {ip, name, img, version, crack, tags: Array.from(tagList), maxSlot};
     });
     await addDataServer(data);
-    console.log(data);
     await browser.close();
 }
 
@@ -82,7 +80,6 @@ async function getHref(url, nbr) {
         return Array.from(elements).map(a => a.getAttribute('href'));
     });
 
-    console.log(hrefArray.length);
     return hrefArray;
 }
 
@@ -99,7 +96,6 @@ async function addDataServer(data) {
     const url = 'https://serveur-prive.net/minecraft/page/';
     for (let i = 1; i < 3; i++) {
         let arr = await getHref(url + i, i);
-        console.log(arr)
         for (let j = 3; j < arr.length; j++) {
             await crawler("https://serveur-prive.net" + arr[j]);
         }
