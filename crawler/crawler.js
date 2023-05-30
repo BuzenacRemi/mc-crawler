@@ -54,7 +54,7 @@ async function crawler(url) {
         const version = versionElement ? versionElement.innerText : '?';
 
         const ipElement = document.querySelector('.inco input');
-        const ip = ipElement ? ipElement.value : 'launcher '+ name;
+        const ip = ipElement ? ipElement.value : (name).toLowerCase();
 
         const tags = document.querySelectorAll('.tag a');
         const tagList = Array.from(tags).map(tag => tag.innerText);
